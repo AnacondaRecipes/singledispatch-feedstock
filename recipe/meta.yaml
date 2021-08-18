@@ -17,8 +17,10 @@ requirements:
   host:
     - python
     - pip
-    - setuptools
+    - setuptools >=42
     - wheel
+    - setuptools_scm >=3.4.1
+    - toml
   run:
     - python
     - six
@@ -26,6 +28,7 @@ requirements:
 test:
   imports:
     - singledispatch
+    - singledispatch.helpers
   requires:
     - pip
   commands:
