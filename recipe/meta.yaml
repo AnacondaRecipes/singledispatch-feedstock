@@ -1,29 +1,34 @@
-{% set version = "3.7.0" %}
+{% set version = "4.1.2" %}
 
 package:
   name: singledispatch
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/s/singledispatch/singledispatch-{{ version }}.tar.gz
-  sha256: c1a4d5c1da310c3fd8fccfb8d4e1cb7df076148fd5d858a819e37fffe44f3092
+  url: https://pypi.org/packages/source/s/singledispatch/singledispatch-{{ version }}.tar.gz
+  sha256: 0ad18e5a55c54a836a695a4e7c12faa05adfe88c7eeb64dcd331a4b13934c3b6
 
 build:
   noarch: python
-  number: 1001
-  script: "{{ PYTHON }} -m pip install . -vv"
+  number: 0
+  script: {{ PYTHON }} -m pip install . -vv
+  skip: true  # [py<39]
 
 requirements:
   host:
     - python
     - pip
-    - setuptools >=42
-    - wheel
+    - setuptools >=77
     - setuptools_scm >=3.4.1
     - toml
+    - setuptools-scm >=3.4.1
+    - coherent.licensed
   run:
     - python
     - six
+  run_constrained:
+    - pytest-checkdocs >=2.4
+    - pytest-enabler >=2.2
 
 test:
   imports:
