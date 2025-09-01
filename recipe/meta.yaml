@@ -1,41 +1,41 @@
-{% set version = "3.7.0" %}
+{% set name = "singledispatch" %}
+{% set version = "4.1.2" %}
 
 package:
-  name: singledispatch
+  name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/s/singledispatch/singledispatch-{{ version }}.tar.gz
-  sha256: c1a4d5c1da310c3fd8fccfb8d4e1cb7df076148fd5d858a819e37fffe44f3092
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: 0ad18e5a55c54a836a695a4e7c12faa05adfe88c7eeb64dcd331a4b13934c3b6
 
 build:
-  noarch: python
-  number: 1001
-  script: "{{ PYTHON }} -m pip install . -vv"
+  number: 0
+  skip: true  # [py<39]
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --ignore-installed --no-cache-dir -vv
 
 requirements:
   host:
-    - python
+    - setuptools >=77
+    - setuptools-scm >=3.4.1
+    - coherent.licensed
     - pip
-    - setuptools >=42
-    - wheel
-    - setuptools_scm >=3.4.1
-    - toml
   run:
     - python
-    - six
 
 test:
-  imports:
-    - singledispatch
-    - singledispatch.helpers
   requires:
     - pip
+    - pytest
+  imports:
+    - singledispatch
   commands:
     - pip check
+    - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
+    - pytest test_singledispatch.py -v
 
 about:
-  home: http://docs.python.org/3/library/functools.html#functools.singledispatch
+  home: https://github.com/jaraco/singledispatch
   license: MIT
   license_file: LICENSE
   license_family: MIT
@@ -43,8 +43,7 @@ about:
   description: |
     This library brings functools.singledispatch from Python 3.4 to Python
     2.6-3.3.
-  doc_url: http://docs.python.org/3/library/functools.html#functools.singledispatch
-  doc_source_url: https://github.com/jaraco/singledispatch/blob/main/README.rst
+  doc_url: https://docs.python.org/3/library/functools.html#functools.singledispatch
   dev_url: https://github.com/jaraco/singledispatch
 
 extra:
