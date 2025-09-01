@@ -16,14 +16,16 @@ build:
 
 requirements:
   host:
+    - python
     - setuptools >=77
     - setuptools-scm >=3.4.1
-    - coherent.licensed
     - pip
   run:
     - python
 
 test:
+  source_files:
+    - test_singledispatch.py
   requires:
     - pip
     - pytest
